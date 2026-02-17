@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Dashboard') }} - {{ _('Fee Management System') }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">{{ _('Dashboard') }}</h1>
+        <p class="lead">{{ _('Welcome to Fee Management System') }}</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Statistics Cards -->
+    <!-- We'll add real statistics later as we build the system -->
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Total Students') }}</h5>
+                <h2 class="card-text">0</h2>
+                <small>{{ _('Active students in system') }}</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Total Revenue') }}</h5>
+                <h2 class="card-text">Rs. 0</h2>
+                <small>{{ _('This month') }}</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Pending Fees') }}</h5>
+                <h2 class="card-text">Rs. 0</h2>
+                <small>{{ _('Unpaid fees') }}</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-danger">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Defaulters') }}</h5>
+                <h2 class="card-text">0</h2>
+                <small>{{ _('Students with overdue fees') }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Quick Actions') }}</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ _('System is ready for development. Features will be added in upcoming phases.') }}</p>
+                <div class="alert alert-info">
+                    <strong>{{ _('Phase 1 Complete!') }}</strong><br>
+                    {{ _('Basic application structure is set up. Next: Database models and student management.') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

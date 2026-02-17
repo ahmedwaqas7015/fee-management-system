@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Login') }} - {{ _('Fee Management System') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">{{ _('Login') }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    <!-- CSRF Token (required for security) -->
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    
+                    <!-- Username Field -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label">{{ _('Username') }}</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="username" 
+                            name="username" 
+                            required 
+                            autofocus
+                            placeholder="{{ _('Enter your username') }}"
+                        >
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">{{ _('Password') }}</label>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="password" 
+                            name="password" 
+                            required
+                            placeholder="{{ _('Enter your password') }}"
+                        >
+                    </div>
+                    
+                    <!-- Remember Me Checkbox -->
+                    <div class="mb-3 form-check">
+                        <input 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            id="remember" 
+                            name="remember"
+                        >
+                        <label class="form-check-label" for="remember">
+                            {{ _('Remember me') }}
+                        </label>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            {{ _('Login') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Info Card -->
+        <div class="card mt-3 border-info">
+            <div class="card-body">
+                <small class="text-muted">
+                    <strong>{{ _('Default Credentials') }}:</strong><br>
+                    {{ _('Username') }}: <code>admin</code><br>
+                    {{ _('Password') }}: <code>admin123</code>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
