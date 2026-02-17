@@ -4,33 +4,49 @@
 
 ### Phase 1: Project Setup ✅
 - [ ] Create virtual environment
-- [ ] Install Flask and dependencies (Flask-SQLAlchemy, Flask-Login, Flask-WTF, etc.)
+- [ ] Install Flask and dependencies (Flask-SQLAlchemy, Flask-Login, Flask-WTF, Flask-Babel, etc.)
 - [ ] Initialize Flask project
 - [ ] Configure database (SQLite for local use)
+- [ ] **Set up internationalization (i18n)**:
+  - [ ] Install Flask-Babel
+  - [ ] Create translation files (ur.po, en.po)
+  - [ ] Set up language switching
+  - [ ] Configure default language (Urdu)
+- [ ] **Set up RTL support** for Urdu:
+  - [ ] Bootstrap RTL CSS or custom RTL styles
+  - [ ] Urdu font support
 - [ ] Set up static/media files
-- [ ] Create base templates (Jinja2)
-- [ ] Set up Bootstrap 5
+- [ ] Create base templates (Jinja2) with language support
+- [ ] Set up Bootstrap 5 (with RTL support)
 - [ ] Create admin user (initial setup)
 
 ### Phase 2: Database Models ✅
 - [ ] Student model (SQLAlchemy)
+- [ ] **Family model** (NEW - for grouping siblings)
 - [ ] Class/Grade model
 - [ ] AcademicYear model
 - [ ] FeeStructure model
 - [ ] FeePayment model
+- [ ] **GroupPayment model** (NEW - for family payments)
 - [ ] PaymentReceipt model
 - [ ] User/Admin model
 - [ ] Initialize database and run migrations (Flask-Migrate)
 - [ ] Create database initialization script
 
 ### Phase 3: Student Management ✅
-- [ ] Student list (with search, filter, pagination)
-- [ ] Add student form (WTForms)
+- [ ] Student list (with search, filter, pagination) - bilingual
+- [ ] Add student form (WTForms) - bilingual labels
+- [ ] **Family management**:
+  - [ ] Create/Edit family
+  - [ ] Assign students to family
+  - [ ] View all students in a family
+  - [ ] Search families
 - [ ] Edit student form
 - [ ] Student detail view
 - [ ] Student ID auto-generation
 - [ ] Delete/deactivate student
 - [ ] **Export Students to Excel** (openpyxl/pandas)
+- [ ] **All UI elements in Urdu/English**
 
 ### Phase 4: Fee Structure ✅
 - [ ] Fee structure list
@@ -39,19 +55,41 @@
 - [ ] Class-wise fee assignment
 
 ### Phase 5: Fee Payment ✅
-- [ ] Payment form
+- [ ] Payment form (bilingual - Urdu/English)
+- [ ] **Payment mode selection**: Single Student OR Family Payment
+- [ ] **Single Student Payment**:
+  - [ ] Select student
+  - [ ] Select fee type(s)
+  - [ ] Enter amount
+- [ ] **Family/Group Payment (NEW)**:
+  - [ ] Family search/selection
+  - [ ] Display all students in family
+  - [ ] Show pending fees for each student
+  - [ ] Multi-select students
+  - [ ] Select fee types for each student
+  - [ ] Calculate total amount
+  - [ ] Generate single receipt for all students
 - [ ] Payment method selection
 - [ ] Conditional fields (transaction ID, account name)
 - [ ] Payment validation
-- [ ] Payment history
+- [ ] Payment history (individual and group payments)
 - [ ] Pending fees calculation
+- [ ] **All payment forms in Urdu/English**
 
 ### Phase 6: Receipt Management ✅
 - [ ] Receipt number generation
-- [ ] Receipt template
-- [ ] PDF generation
+- [ ] **Receipt templates** (bilingual):
+  - [ ] Individual student receipt template
+  - [ ] **Family/Group payment receipt template** (NEW):
+    - [ ] Show family information
+    - [ ] List all students with their fees
+    - [ ] Total amount paid
+    - [ ] Single receipt number
+- [ ] PDF generation (with Urdu font support)
 - [ ] Receipt viewing/printing
 - [ ] Receipt search
+- [ ] **Language selection for receipt** (Urdu or English)
+- [ ] **RTL layout for Urdu receipts**
 
 ### Phase 7: Defaulters Management ✅
 - [ ] Defaulter calculation logic
@@ -142,12 +180,15 @@
 1. **Framework**: Flask (not Django) - lightweight for local use
 2. **Database**: SQLite (local file-based, no server needed)
 3. **Student ID Format**: SCH-YYYY-XXXX
-4. **Receipt Number Format**: RCP-YYYY-XXXXX
+4. **Receipt Number Format**: RCP-YYYY-XXXXX (individual), GP-YYYY-XXXXX (group)
 5. **Defaulter Calculation**: Based on oldest unpaid fee's due date
 6. **Payment Validation**: Transaction ID required for digital payments
 7. **Receipt**: Auto-generated on payment save
 8. **Excel Export**: Use openpyxl or pandas for Excel file generation
 9. **Academic Year**: Required for fee structure management and historical tracking
+10. **Multi-Language**: Urdu (default) and English support with Flask-Babel
+11. **RTL Support**: Right-to-left layout for Urdu interface
+12. **Family Payments**: Group payment feature for siblings (single receipt for multiple students)
 
 ---
 
@@ -159,6 +200,8 @@
 - [ ] Bank transfer with all required fields
 - [ ] Partial payment
 - [ ] Multiple fee types in one payment
+- [ ] **Family/Group payment** (multiple students, single receipt)
+- [ ] **Family payment with different fee types** for each student
 
 ### Defaulter Scenarios
 - [ ] Student with 1 month overdue (GREY)

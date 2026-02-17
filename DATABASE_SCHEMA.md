@@ -39,6 +39,7 @@
 - `address` (TextField)
 - `parent_guardian_name` (CharField, Max 100)
 - `parent_contact` (CharField, Max 20)
+- `family_id` (ForeignKey → Family, Nullable) - **NEW: For grouping siblings**
 - `is_active` (BooleanField, Default=True)
 - `created_at` (DateTimeField, Auto)
 - `updated_at` (DateTimeField, Auto)
@@ -46,6 +47,29 @@
 **Relationships**:
 - One-to-Many with FeePayment
 - Many-to-One with Class
+- Many-to-One with Family (NEW)
+
+---
+
+### 1.1 Family Model (NEW - For Group Payments)
+**Table Name**: `family`
+
+**Fields**:
+- `id` (Primary Key, Auto)
+- `family_code` (CharField, Unique, Max 50) - Format: FAM-YYYY-XXXX
+- `father_name` (CharField, Max 100) - Primary parent name
+- `father_cnic` (CharField, Max 20, Unique, Optional) - CNIC for identification
+- `father_contact` (CharField, Max 20) - Primary contact
+- `mother_name` (CharField, Max 100, Optional)
+- `address` (TextField) - Family address
+- `created_at` (DateTimeField, Auto)
+- `updated_at` (DateTimeField, Auto)
+
+**Relationships**:
+- One-to-Many with Student (siblings)
+- One-to-Many with GroupPayment
+
+**Purpose**: Group students who are siblings (brothers/sisters) so their fees can be paid together in a single challan/receipt.
 
 ---
 
@@ -152,6 +176,7 @@ The Academic Year model is essential for:
 - `transaction_id` (CharField, Max 100, Nullable) - For digital payments
 - `account_name` (CharField, Max 100, Nullable) - For digital payments
 - `remarks` (TextField, Optional)
+- `group_payment_id` (ForeignKey → GroupPayment, Nullable) - **NEW: For family payments**
 - `created_by` (ForeignKey → User)
 - `created_at` (DateTimeField, Auto)
 - `updated_at` (DateTimeField, Auto)
@@ -159,6 +184,7 @@ The Academic Year model is essential for:
 **Relationships**:
 - Many-to-One with Student
 - Many-to-One with FeeStructure
+- Many-to-One with GroupPayment (NEW)
 - One-to-One with PaymentReceipt
 
 **Indexes**:
@@ -166,7 +192,48 @@ The Academic Year model is essential for:
 - Index on `status`
 - Index on `payment_date`
 - Index on `due_date`
+- Index on `group_payment_id` (NEW)
 - Unique constraint on `transaction_id` (when not null)
+
+---
+
+### 5.1 Group Payment Model (NEW - For Family Payments)
+**Table Name**: `group_payment`
+
+**Fields**:
+- `id` (Primary Key, Auto)
+- `group_payment_number` (CharField, Unique, Max 50) - Format: GP-YYYY-XXXXX
+- `family` (ForeignKey → Family, CASCADE)
+- `total_amount` (DecimalField, Max 10 digits, 2 decimal places) - Sum of all student fees
+- `payment_method` (CharField, Choices)
+  - CASH
+  - EASYPAISA
+  - JAZZCASH
+  - BANK_TRANSFER
+- `payment_date` (DateField)
+- `transaction_id` (CharField, Max 100, Nullable) - For digital payments
+- `account_name` (CharField, Max 100, Nullable) - For digital payments
+- `receipt_number` (CharField, Max 50, Unique) - Single receipt for all students
+- `status` (CharField, Choices)
+  - PAID
+  - PARTIAL
+- `students_count` (IntegerField) - Number of students in this payment
+- `created_by` (ForeignKey → User)
+- `created_at` (DateTimeField, Auto)
+- `updated_at` (DateTimeField, Auto)
+
+**Relationships**:
+- Many-to-One with Family
+- One-to-Many with FeePayment
+- One-to-One with PaymentReceipt (group receipt)
+
+**Indexes**:
+- Index on `family_id`
+- Index on `receipt_number`
+- Index on `payment_date`
+- Unique constraint on `transaction_id` (when not null)
+
+**Purpose**: Track payments made for multiple students (siblings) in a single transaction. One receipt/challan for the entire family payment.
 
 ---
 
