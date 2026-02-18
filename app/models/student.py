@@ -51,7 +51,7 @@ class Student(db.Model):
     date_of_birth = db.Column(db.Date, nullable=False)
     
     # Gender: M (Male), F (Female), O (Other)
-    gender = db.Column(db.String(1), nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
     
     # Class/Grade (Foreign Key)
     # Many students belong to one class
@@ -59,15 +59,15 @@ class Student(db.Model):
     
     # Admission details
     admission_date = db.Column(db.Date, nullable=False)
-    admission_number = db.Column(db.String(50), unique=True, nullable=False, index=True)
+    admission_number = db.Column(db.String(50), unique=True, nullable=False, index=True)  # Auto-generated
     
-    # Contact information
-    contact_number = db.Column(db.String(20), nullable=True)
+    # Contact information (removed student's own contact)
     address = db.Column(db.Text, nullable=True)
     
     # Parent/Guardian information
     parent_guardian_name = db.Column(db.String(100), nullable=False)
-    parent_contact = db.Column(db.String(20), nullable=False)
+    parent_primary_contact = db.Column(db.String(20), nullable=False)  # Primary contact
+    parent_secondary_contact = db.Column(db.String(20), nullable=True)  # Secondary contact (optional)
     
     # Family (Foreign Key - for grouping siblings)
     # Many students can belong to one family
@@ -145,23 +145,25 @@ class Student(db.Model):
             'class_name': self.class_grade.class_name if self.class_grade else None,
             'admission_date': self.admission_date.isoformat() if self.admission_date else None,
             'admission_number': self.admission_number,
-            'contact_number': self.contact_number,
             'address': self.address,
             'parent_guardian_name': self.parent_guardian_name,
-            'parent_contact': self.parent_contact,
+            'parent_primary_contact': self.parent_primary_contact,
+            'parent_secondary_contact': self.parent_secondary_contact,
             'is_active': self.is_active
         }
 
 
 # ========== EVENT LISTENER ==========
-# This automatically generates student_id when a new student is created
+# This automatically generates student_id and admission_number when a new student is created
 @event.listens_for(Student, 'before_insert')
-def generate_student_id_before_insert(mapper, connection, target):
+def generate_student_ids_before_insert(mapper, connection, target):
     """
-    Event listener: Automatically generate student_id before inserting
+    Event listener: Automatically generate student_id and admission_number before inserting
     
     This runs automatically when a new Student is created.
-    No need to manually call generate_student_id().
+    No need to manually call generate_student_id() or generate_admission_number().
     """
     if not target.student_id:
         target.generate_student_id()
+    if not target.admission_number:
+        target.generate_admission_number()

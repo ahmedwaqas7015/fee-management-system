@@ -21,6 +21,9 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
+# Get base directory for translations (go up one level from app/ to project root)
+basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 # Initialize extensions (but don't attach to app yet)
 # This is important - we initialize them here but configure them in create_app()
 db = SQLAlchemy()
@@ -64,6 +67,10 @@ def create_app(config_name='default'):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
     
+    # Set Babel translation directories BEFORE initializing Babel
+    # This tells Flask-Babel where to find translation files
+    app.config['BABEL_TRANSLATION_DIRECTORIES'] = os.path.join(basedir, 'translations')
+    
     # ========== FLASK-BABEL CONFIGURATION ==========
     # Configure language selection
     # In Flask-Babel 4.0, locale_selector is passed as a parameter to init_app()
@@ -96,6 +103,20 @@ def create_app(config_name='default'):
     # Pass locale_selector to init_app() in Flask-Babel 4.0
     babel.init_app(app, locale_selector=get_locale)
     csrf.init_app(app)
+    
+    # Ensure locale is refreshed on each request
+    # This clears any cached locale so get_locale() is called fresh
+    @app.before_request
+    def clear_babel_cache():
+        """Clear Babel locale cache before each request to ensure fresh locale selection"""
+        from flask import g
+        # Clear any cached Babel locale
+        if hasattr(g, '_babel_locale'):
+            delattr(g, '_babel_locale')
+        if hasattr(g, '_babel'):
+            # Clear the entire Babel cache if it exists
+            if hasattr(g._babel, '_locale'):
+                delattr(g._babel, '_locale')
     
     # ========== FLASK-LOGIN CONFIGURATION ==========
     # Configure Flask-Login for authentication
@@ -150,6 +171,14 @@ def create_app(config_name='default'):
     from app.routes.main import bp as main_bp
     app.register_blueprint(main_bp)
     
+    # Register student management routes
+    from app.routes.students import bp as students_bp
+    app.register_blueprint(students_bp)
+    
+    # Register family management routes
+    from app.routes.families import bp as families_bp
+    app.register_blueprint(families_bp)
+    
     # ========== LOGIN MANAGER USER LOADER ==========
     # This tells Flask-Login how to find a user by ID
     # We need to import User here to avoid circular imports
@@ -200,8 +229,9 @@ def create_app(config_name='default'):
     @app.context_processor
     def inject_language():
         """Make current language available in all templates"""
-        from flask import session
-        current_lang = session.get('language', app.config['BABEL_DEFAULT_LOCALE'])
+        # Use Flask-Babel's get_locale() to ensure consistency
+        from flask_babel import get_locale
+        current_lang = get_locale()
         return dict(current_language=current_lang)
     
     # Return the configured app

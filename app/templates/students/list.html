@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Students') }} - {{ _('Fee Management System') }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .student-card {
+        transition: transform 0.2s;
+    }
+    .student-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .badge-status {
+        font-size: 0.75rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2>{{ _('Students') }}</h2>
+        <p class="text-muted">{{ _('Manage student records') }}</p>
+    </div>
+    <div class="col-md-6 text-end">
+        <a href="{{ url_for('students.add_student') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> {{ _('Add Student') }}
+        </a>
+        <a href="{{ url_for('students.export_students', search=search, class=class_filter, status=status_filter) }}" class="btn btn-success">
+            <i class="bi bi-file-excel"></i> {{ _('Export to Excel') }}
+        </a>
+    </div>
+</div>
+
+<!-- Search and Filter Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('students.list_students') }}" class="row g-3">
+            <div class="col-md-4">
+                <label for="search" class="form-label">{{ _('Search') }}</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="search" 
+                    name="search" 
+                    value="{{ search }}"
+                    placeholder="{{ _('Search by name, ID, admission number...') }}"
+                >
+            </div>
+            <div class="col-md-3">
+                <label for="class" class="form-label">{{ _('Class') }}</label>
+                <select class="form-select" id="class" name="class">
+                    <option value="0">{{ _('All Classes') }}</option>
+                    {% for class in classes %}
+                    <option value="{{ class.id }}" {% if class_filter == class.id %}selected{% endif %}>
+                        {{ class.class_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="status" class="form-label">{{ _('Status') }}</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="all" {% if status_filter == 'all' %}selected{% endif %}>{{ _('All') }}</option>
+                    <option value="active" {% if status_filter == 'active' %}selected{% endif %}>{{ _('Active') }}</option>
+                    <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>{{ _('Inactive') }}</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search"></i> {{ _('Filter') }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Students Table -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">{{ _('Student List') }} 
+            <span class="badge bg-secondary">{{ pagination.total }} {{ _('students') }}</span>
+        </h5>
+    </div>
+    <div class="card-body">
+        {% if students %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ _('Student ID') }}</th>
+                        <th>{{ _('Name') }}</th>
+                        <th>{{ _('Father Name') }}</th>
+                        <th>{{ _('Class') }}</th>
+                        <th>{{ _('Admission Date') }}</th>
+                        <th>{{ _('Contact') }}</th>
+                        <th>{{ _('Status') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td><strong>{{ student.student_id }}</strong></td>
+                        <td>{{ student.get_full_name() }}</td>
+                        <td>{{ student.father_name }}</td>
+                        <td>
+                            {% if student.class_grade %}
+                                <span class="badge bg-info">{{ student.class_grade.class_name }}</span>
+                            {% else %}
+                                <span class="text-muted">--</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ student.admission_date.strftime('%Y-%m-%d') if student.admission_date else '--' }}</td>
+                        <td>{{ student.contact_number or '--' }}</td>
+                        <td>
+                            {% if student.is_active %}
+                                <span class="badge bg-success">{{ _('Active') }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ _('Inactive') }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{{ url_for('students.view_student', id=student.id) }}" 
+                                   class="btn btn-outline-primary" 
+                                   title="{{ _('View') }}">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ url_for('students.edit_student', id=student.id) }}" 
+                                   class="btn btn-outline-warning" 
+                                   title="{{ _('Edit') }}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if pagination.pages > 1 %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('students.list_students', page=pagination.prev_num, search=search, class=class_filter, status=status_filter) }}">
+                        {{ _('Previous') }}
+                    </a>
+                </li>
+                
+                {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                    {% if page_num %}
+                        {% if page_num == pagination.page %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page_num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('students.list_students', page=page_num, search=search, class=class_filter, status=status_filter) }}">
+                                {{ page_num }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('students.list_students', page=pagination.next_num, search=search, class=class_filter, status=status_filter) }}">
+                        {{ _('Next') }}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle"></i> {{ _('No students found.') }}
+            <a href="{{ url_for('students.add_student') }}" class="alert-link">{{ _('Add your first student') }}</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

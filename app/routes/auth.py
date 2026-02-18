@@ -103,6 +103,7 @@ def change_language(language):
     # Validate language
     if language in ['ur', 'en']:
         session['language'] = language
+        session.permanent = True  # Make session permanent so language persists
         flash(_('Language changed successfully.'), 'success')
     else:
         flash(_('Invalid language selection.'), 'error')

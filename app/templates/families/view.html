@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Family Details') }} - {{ _('Fee Management System') }}{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-8">
+        <h2>{{ family.father_name }}</h2>
+        <p class="text-muted">{{ _('Family Code') }}: <strong>{{ family.family_code }}</strong></p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{{ url_for('students.list_students') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> {{ _('Back') }}
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">{{ _('Family Information') }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">{{ _('Family Code') }}:</th>
+                        <td><strong>{{ family.family_code }}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>{{ _('Father Name') }}:</th>
+                        <td>{{ family.father_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ _('Father CNIC') }}:</th>
+                        <td>{{ family.father_cnic or '--' }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ _('Father Contact') }}:</th>
+                        <td>{{ family.father_contact }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">{{ _('Mother Name') }}:</th>
+                        <td>{{ family.mother_name or '--' }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ _('Address') }}:</th>
+                        <td>{{ family.address or '--' }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">{{ _('Students in Family') }} ({{ students|length }})</h5>
+    </div>
+    <div class="card-body">
+        {% if students %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ _('Student ID') }}</th>
+                        <th>{{ _('Name') }}</th>
+                        <th>{{ _('Class') }}</th>
+                        <th>{{ _('Status') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td><strong>{{ student.student_id }}</strong></td>
+                        <td>{{ student.get_full_name() }}</td>
+                        <td>
+                            {% if student.class_grade %}
+                                <span class="badge bg-info">{{ student.class_grade.class_name }}</span>
+                            {% else %}
+                                <span class="text-muted">--</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if student.is_active %}
+                                <span class="badge bg-success">{{ _('Active') }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ _('Inactive') }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('students.view_student', id=student.id) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> {{ _('View') }}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted text-center">{{ _('No students in this family') }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

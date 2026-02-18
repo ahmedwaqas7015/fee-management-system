@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Student Details') }}: {{ student.get_full_name() }}{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-8">
+        <h2>{{ student.get_full_name() }}</h2>
+        <p class="text-muted">{{ _('Student ID') }}: <strong>{{ student.student_id }}</strong></p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{{ url_for('students.edit_student', id=student.id) }}" class="btn btn-warning">
+            <i class="bi bi-pencil"></i> {{ _('Edit') }}
+        </a>
+        <a href="{{ url_for('students.list_students') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> {{ _('Back to List') }}
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Student Information -->
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">{{ _('Student Information') }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th width="40%">{{ _('Student ID') }}:</th>
+                                <td><strong>{{ student.student_id }}</strong></td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Full Name') }}:</th>
+                                <td>{{ student.get_full_name() }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Father Name') }}:</th>
+                                <td>{{ student.father_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Date of Birth') }}:</th>
+                                <td>{{ student.date_of_birth.strftime('%Y-%m-%d') if student.date_of_birth else '--' }} 
+                                    ({{ _('Age') }}: {{ student.get_age() }})
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Gender') }}:</th>
+                                <td>
+                                    {% if student.gender == 'M' %}{{ _('Male') }}
+                                    {% elif student.gender == 'F' %}{{ _('Female') }}
+                                    {% else %}{{ _('Other') }}{% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Class') }}:</th>
+                                <td>
+                                    {% if student.class_grade %}
+                                        <span class="badge bg-info">{{ student.class_grade.class_name }}</span>
+                                    {% else %}
+                                        <span class="text-muted">--</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th width="40%">{{ _('Admission Date') }}:</th>
+                                <td>{{ student.admission_date.strftime('%Y-%m-%d') if student.admission_date else '--' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Admission Number') }}:</th>
+                                <td>{{ student.admission_number }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Contact') }}:</th>
+                                <td>{{ student.contact_number or '--' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Address') }}:</th>
+                                <td>{{ student.address or '--' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ _('Status') }}:</th>
+                                <td>
+                                    {% if student.is_active %}
+                                        <span class="badge bg-success">{{ _('Active') }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ _('Inactive') }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Parent/Guardian Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Parent/Guardian Information') }}</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="30%">{{ _('Parent/Guardian Name') }}:</th>
+                        <td>{{ student.parent_guardian_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ _('Parent Contact') }}:</th>
+                        <td>{{ student.parent_contact }}</td>
+                    </tr>
+                    {% if student.family %}
+                    <tr>
+                        <th>{{ _('Family') }}:</th>
+                        <td>
+                            <a href="{{ url_for('families.view_family', id=student.family.id) }}">
+                                {{ student.family.family_code }} - {{ student.family.father_name }}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        
+        <!-- Siblings (if in family) -->
+        {% if siblings %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Siblings') }} ({{ siblings|length }})</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Student ID') }}</th>
+                                <th>{{ _('Name') }}</th>
+                                <th>{{ _('Class') }}</th>
+                                <th>{{ _('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sibling in siblings %}
+                            <tr>
+                                <td>{{ sibling.student_id }}</td>
+                                <td>{{ sibling.get_full_name() }}</td>
+                                <td>{{ sibling.class_grade.class_name if sibling.class_grade else '--' }}</td>
+                                <td>
+                                    <a href="{{ url_for('students.view_student', id=sibling.id) }}" class="btn btn-sm btn-outline-primary">
+                                        {{ _('View') }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Sidebar: Payment Summary -->
+    <div class="col-md-4">
+        <!-- Pending Fees Summary -->
+        <div class="card mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">{{ _('Pending Fees') }}</h5>
+            </div>
+            <div class="card-body">
+                <h3 class="text-warning">Rs. {{ "{:,.2f}".format(total_pending) }}</h3>
+                <p class="text-muted mb-0">
+                    {{ pending_payments|length }} {{ _('unpaid fee(s)') }}
+                </p>
+                {% if pending_payments %}
+                <a href="{{ url_for('fees.pay_fee', student_id=student.id) }}" class="btn btn-sm btn-primary mt-2">
+                    {{ _('Pay Fees') }}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Recent Payments -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Recent Payments') }}</h5>
+            </div>
+            <div class="card-body">
+                {% if payments %}
+                <div class="list-group list-group-flush">
+                    {% for payment in payments %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>{{ payment.fee_structure.fee_name if payment.fee_structure else '--' }}</strong><br>
+                                <small class="text-muted">{{ payment.payment_date.strftime('%Y-%m-%d') if payment.payment_date else '--' }}</small>
+                            </div>
+                            <div class="text-end">
+                                <strong>Rs. {{ "{:,.2f}".format(payment.amount) }}</strong><br>
+                                <span class="badge bg-{{ 'success' if payment.status == 'PAID' else 'warning' }}">
+                                    {{ payment.status }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <a href="#" class="btn btn-sm btn-outline-primary mt-2 w-100" onclick="alert('{{ _('Payment history feature coming in Phase 4') }}'); return false;">
+                    {{ _('View All Payments') }}
+                </a>
+                {% else %}
+                <p class="text-muted text-center">{{ _('No payments yet') }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

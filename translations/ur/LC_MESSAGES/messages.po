@@ -1,0 +1,345 @@
+# Urdu translations for Fee Management System.
+# Copyright (C) 2026
+# This file is distributed under the same license as the PROJECT project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Fee Management System 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-18 14:30+0500\n"
+"PO-Revision-Date: 2026-02-18 14:30+0500\n"
+"Last-Translator: \n"
+"Language: ur\n"
+"Language-Team: ur <ur@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+# Navigation and Common
+msgid "Fee Management System"
+msgstr "فیس مینجمنٹ سسٹم"
+
+msgid "Dashboard"
+msgstr "ڈیش بورڈ"
+
+msgid "Students"
+msgstr "طلباء"
+
+msgid "Logout"
+msgstr "لاگ آؤٹ"
+
+msgid "Back"
+msgstr "واپس"
+
+msgid "Back to List"
+msgstr "فہرست پر واپس"
+
+# Student Management
+msgid "Add Student"
+msgstr "نیا طالب علم شامل کریں"
+
+msgid "Add New Student"
+msgstr "نیا طالب علم شامل کریں"
+
+msgid "Edit Student"
+msgstr "طالب علم میں ترمیم کریں"
+
+msgid "Update Student"
+msgstr "طالب علم اپ ڈیٹ کریں"
+
+msgid "View Student"
+msgstr "طالب علم دیکھیں"
+
+msgid "Student Details"
+msgstr "طالب علم کی تفصیلات"
+
+msgid "Student List"
+msgstr "طلباء کی فہرست"
+
+msgid "Manage student records"
+msgstr "طالب علم کے ریکارڈز کا انتظام"
+
+msgid "Save Student"
+msgstr "طالب علم محفوظ کریں"
+
+msgid "Cancel"
+msgstr "منسوخ کریں"
+
+msgid "Student ID"
+msgstr "طالب علم کی شناخت"
+
+msgid "Student ID cannot be changed"
+msgstr "طالب علم کی شناخت تبدیل نہیں کی جا سکتی"
+
+# Form Sections
+msgid "Personal Information"
+msgstr "ذاتی معلومات"
+
+msgid "Academic Information"
+msgstr "تعلیمی معلومات"
+
+msgid "Contact Information"
+msgstr "رابطے کی معلومات"
+
+msgid "Parent/Guardian Information"
+msgstr "والدین/سرپرست کی معلومات"
+
+msgid "Family/Siblings Information"
+msgstr "خاندان/بہن بھائیوں کی معلومات"
+
+# Form Fields
+msgid "First Name"
+msgstr "پہلا نام"
+
+msgid "Last Name"
+msgstr "آخری نام"
+
+msgid "Father Name"
+msgstr "والد کا نام"
+
+msgid "Date of Birth"
+msgstr "تاریخ پیدائش"
+
+msgid "Gender"
+msgstr "جنس"
+
+msgid "Male"
+msgstr "مرد"
+
+msgid "Female"
+msgstr "عورت"
+
+msgid "Other"
+msgstr "دیگر"
+
+msgid "Class"
+msgstr "جماعت"
+
+msgid "Class/Grade"
+msgstr "جماعت/درجہ"
+
+msgid "-- Select Class --"
+msgstr "-- جماعت منتخب کریں --"
+
+msgid "All Classes"
+msgstr "تمام جماعتیں"
+
+msgid "Admission Date"
+msgstr "داخلہ کی تاریخ"
+
+msgid "Admission Number"
+msgstr "داخلہ نمبر"
+
+msgid "Admission number will be auto-generated"
+msgstr "داخلہ نمبر خود بخود بنایا جائے گا"
+
+msgid "Address"
+msgstr "پتہ"
+
+msgid "Parent/Guardian Name"
+msgstr "والدین/سرپرست کا نام"
+
+msgid "Primary Contact Number"
+msgstr "بنیادی رابطہ نمبر"
+
+msgid "Secondary Contact Number (Optional)"
+msgstr "ثانوی رابطہ نمبر (اختیاری)"
+
+msgid "Optional"
+msgstr "اختیاری"
+
+msgid "Does this student have siblings in school?"
+msgstr "کیا اس طالب علم کے بہن بھائی اسکول میں ہیں؟"
+
+msgid "Select Family (if siblings exist)"
+msgstr "خاندان منتخب کریں (اگر بہن بھائی موجود ہیں)"
+
+msgid "-- Select Family --"
+msgstr "-- خاندان منتخب کریں --"
+
+msgid "-- No Family --"
+msgstr "-- کوئی خاندان نہیں --"
+
+msgid "Select family if siblings already exist in system"
+msgstr "خاندان منتخب کریں اگر بہن بھائی پہلے سے سسٹم میں موجود ہیں"
+
+msgid "Status"
+msgstr "حیثیت"
+
+msgid "Active"
+msgstr "فعال"
+
+msgid "Inactive"
+msgstr "غیر فعال"
+
+msgid "All"
+msgstr "سب"
+
+# Search and Filter
+msgid "Search"
+msgstr "تلاش کریں"
+
+msgid "Search by name, ID, admission number..."
+msgstr "نام، شناخت، داخلہ نمبر سے تلاش کریں..."
+
+msgid "Filter"
+msgstr "فلٹر کریں"
+
+# Actions
+msgid "Actions"
+msgstr "اعمال"
+
+msgid "View"
+msgstr "دیکھیں"
+
+msgid "Edit"
+msgstr "ترمیم"
+
+msgid "Export to Excel"
+msgstr "ایکسل میں برآمد کریں"
+
+# Messages
+msgid "Student added successfully! Student ID: %(id)s"
+msgstr "طالب علم کامیابی سے شامل ہو گیا! طالب علم کی شناخت: %(id)s"
+
+msgid "Student updated successfully!"
+msgstr "طالب علم کامیابی سے اپ ڈیٹ ہو گیا!"
+
+msgid "Student deactivated successfully."
+msgstr "طالب علم کامیابی سے غیر فعال ہو گیا۔"
+
+msgid "Error adding student: %(error)s"
+msgstr "طالب علم شامل کرنے میں خرابی: %(error)s"
+
+msgid "Error updating student: %(error)s"
+msgstr "طالب علم اپ ڈیٹ کرنے میں خرابی: %(error)s"
+
+msgid "Error deactivating student: %(error)s"
+msgstr "طالب علم غیر فعال کرنے میں خرابی: %(error)s"
+
+msgid "No students found."
+msgstr "کوئی طالب علم نہیں ملا۔"
+
+msgid "Add your first student"
+msgstr "اپنا پہلا طالب علم شامل کریں"
+
+msgid "students"
+msgstr "طلباء"
+
+# Student Details View
+msgid "Name"
+msgstr "نام"
+
+msgid "Full Name"
+msgstr "مکمل نام"
+
+msgid "Age"
+msgstr "عمر"
+
+msgid "Contact"
+msgstr "رابطہ"
+
+msgid "Parent Contact"
+msgstr "والدین کا رابطہ"
+
+msgid "Family"
+msgstr "خاندان"
+
+msgid "Family Code"
+msgstr "خاندان کا کوڈ"
+
+msgid "Family Information"
+msgstr "خاندان کی معلومات"
+
+msgid "Father Name"
+msgstr "والد کا نام"
+
+msgid "Father CNIC"
+msgstr "والد کا شناختی کارڈ"
+
+msgid "Father Contact"
+msgstr "والد کا رابطہ"
+
+msgid "Mother Name"
+msgstr "والدہ کا نام"
+
+msgid "Students in Family"
+msgstr "خاندان کے طلباء"
+
+msgid "No students in this family"
+msgstr "اس خاندان میں کوئی طالب علم نہیں"
+
+msgid "Siblings"
+msgstr "بہن بھائی"
+
+msgid "Pending Fees"
+msgstr "باقی فیس"
+
+msgid "unpaid fee(s)"
+msgstr "غیر ادا شدہ فیس"
+
+msgid "Pay Fees"
+msgstr "فیس ادا کریں"
+
+msgid "Recent Payments"
+msgstr "حالیہ ادائیگیاں"
+
+msgid "View All Payments"
+msgstr "تمام ادائیگیاں دیکھیں"
+
+msgid "No payments yet"
+msgstr "ابھی تک کوئی ادائیگی نہیں"
+
+msgid "Payment history feature coming in Phase 4"
+msgstr "ادائیگی کی تاریخ کا فیچر فیز 4 میں آئے گا"
+
+msgid "Fee payment feature coming in Phase 4"
+msgstr "فیس کی ادائیگی کا فیچر فیز 4 میں آئے گا"
+
+# Pagination
+msgid "Previous"
+msgstr "پچھلا"
+
+msgid "Next"
+msgstr "اگلا"
+
+# Excel Export Headers
+msgid "Parent Name"
+msgstr "والدین کا نام"
+
+# Error Pages
+msgid "Page Not Found"
+msgstr "صفحہ نہیں ملا"
+
+msgid "The page you are looking for does not exist."
+msgstr "جس صفحے کی آپ تلاش کر رہے ہیں وہ موجود نہیں ہے۔"
+
+msgid "Go to Dashboard"
+msgstr "ڈیش بورڈ پر جائیں"
+
+msgid "Server Error"
+msgstr "سرور کی خرابی"
+
+# Authentication
+msgid "Login successful! Welcome back."
+msgstr "لاگ ان کامیاب! خوش آمدید۔"
+
+msgid "You have been logged out successfully."
+msgstr "آپ کامیابی سے لاگ آؤٹ ہو گئے ہیں۔"
+
+msgid "Invalid username or password."
+msgstr "غلط صارف نام یا پاس ورڈ۔"
+
+msgid "Language changed successfully."
+msgstr "زبان کامیابی سے تبدیل ہو گئی۔"
+
+msgid "Invalid language selection."
+msgstr "غلط زبان کا انتخاب۔"
+
+msgid "Please enter both username and password."
+msgstr "براہ کرم صارف نام اور پاس ورڈ دونوں درج کریں۔"
+
+msgid "Your account is deactivated. Please contact administrator."
+msgstr "آپ کا اکاؤنٹ غیر فعال ہے۔ براہ کرم منتظم سے رابطہ کریں۔"

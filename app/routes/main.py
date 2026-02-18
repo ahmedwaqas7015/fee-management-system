@@ -27,5 +27,6 @@ def dashboard():
     """
     # For now, we'll show a simple dashboard
     # We'll add statistics and charts later
+    # current_language is automatically injected by context processor
     
     return render_template('main/dashboard.html', title=_('Dashboard'))
